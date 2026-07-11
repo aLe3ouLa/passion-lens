@@ -3,12 +3,12 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 
-import type { MemoryStoryState } from '../types/memory';
-import './Story.css';
+import type { MemoryPageState } from '../types/memory';
+import './Memory.css';
 import { createNarration } from '../services/createNarration';
 import { downloadMemoryPdf } from '../services/downloadMemoryPdf';
 
-export const Story = () => {
+export const MemoryPage = () => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const prefersReducedMotion = useReducedMotion();
 
@@ -20,7 +20,7 @@ export const Story = () => {
   const [downloadError, setDownloadError] = useState('');
 
   const routeLocation = useLocation();
-  const memoryState = routeLocation.state as MemoryStoryState | null;
+  const memoryState = routeLocation.state as MemoryPageState | null;
 
   useEffect(() => {
     return () => {
@@ -103,7 +103,7 @@ export const Story = () => {
   };
 
   return (
-    <main className="story-page">
+    <main className="memory-page">
       <article className="memory-story" aria-labelledby="memory-title">
         <section
           className={`memory-hero ${isPlaying ? 'memory-hero--playing' : ''}`}

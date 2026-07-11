@@ -66,7 +66,7 @@ export const CreateMemoryPage = () => {
         voiceStyle,
       });
 
-      navigate('/story/generated', {
+      navigate('/memory/generated', {
         state: {
           imageUrl: imageUpload.previewUrl,
           location,

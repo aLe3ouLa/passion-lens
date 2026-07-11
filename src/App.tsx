@@ -1,7 +1,7 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { LandingPage } from './pages/LandingPage';
 import { CreateMemoryPage } from './pages/CreateMemory';
-import { Story } from './pages/Story';
+import { MemoryPage } from './pages/Memory';
 import { Header } from './components/landing/Header';
 import { Footer } from './components/Footer';
 
@@ -15,8 +15,9 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/create-memory" element={<CreateMemoryPage />} />
-        <Route path="/story" element={<Story />} />
-        <Route path="/story/generated" element={<Story />} />
+        <Route path="/memory/generated" element={<MemoryPage />} />
+        <Route path="/story" element={<Navigate to="/memory/generated" replace />} />
+        <Route path="/story/generated" element={<Navigate to="/memory/generated" replace />} />
       </Routes>
 
       <Footer />

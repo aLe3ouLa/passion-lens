@@ -17,7 +17,7 @@ export interface GeneratedMemory {
   };
 }
 
-export interface MemoryStoryState {
+export interface MemoryPageState {
   generatedMemory: GeneratedMemory;
   imageUrl: string;
   location: string;
