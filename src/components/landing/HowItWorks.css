@@ -1,0 +1,115 @@
+.how-it-works {
+  width: min(calc(100% - (var(--page-padding) * 2)), var(--page-width));
+  margin: 0 auto;
+  padding: clamp(5rem, 10vw, 8rem) 0;
+}
+
+.how-it-works__header {
+  max-width: 680px;
+  margin-bottom: clamp(3rem, 7vw, 5rem);
+}
+
+.how-it-works__eyebrow {
+  margin: 0 0 1rem;
+  color: var(--color-accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.how-it-works__title {
+  margin: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(2.7rem, 6vw, 5rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.how-it-works__description {
+  max-width: 580px;
+  margin: 1.5rem 0 0;
+  color: var(--color-text-muted);
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+.how-it-works__steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--color-border);
+}
+
+.how-it-works__step {
+  display: grid;
+  grid-template-columns: 5rem 4rem minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(1.25rem, 4vw, 3rem);
+
+  padding: clamp(2.5rem, 5vw, 4rem) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.how-it-works__number {
+  padding-top: 0.9rem;
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.how-it-works__icon {
+  width: 3.5rem;
+  height: 3.5rem;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+
+  background: var(--color-surface);
+  color: var(--color-accent);
+}
+
+.how-it-works__content {
+  max-width: 650px;
+}
+
+.how-it-works__content h3 {
+  margin: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+  font-weight: 400;
+}
+
+.how-it-works__content p {
+  max-width: 560px;
+  margin: 1rem 0 0;
+  color: var(--color-text-muted);
+  line-height: 1.8;
+}
+
+@media (max-width: 650px) {
+  .how-it-works__step {
+    grid-template-columns: 3.5rem 1fr;
+    gap: 1.25rem;
+  }
+
+  .how-it-works__number {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .how-it-works__icon {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .how-it-works__content {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+}

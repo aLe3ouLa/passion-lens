@@ -1,0 +1,12 @@
+:root {
+  --color-background: #100d18;
+  --color-surface: #191321;
+  --color-text: #fff7f2;
+  --color-text-muted: #bcb0c4;
+  --color-accent: #ff7a4d;
+  --color-accent-light: #ffd166;
+  --color-border: rgba(255, 247, 242, 0.14);
+
+  --page-width: 1200px;
+  --page-padding: clamp(1.25rem, 4vw, 4rem);
+}
