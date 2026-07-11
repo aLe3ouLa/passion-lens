@@ -11,6 +11,68 @@ const creationMessages = [
   'Writing your story...',
 ];
 
+const prepareImageForUpload = (file: File) =>
+  new Promise<File>((resolve, reject) => {
+    const sourceUrl = URL.createObjectURL(file);
+    const sourceImage = new Image();
+
+    sourceImage.onload = () => {
+      URL.revokeObjectURL(sourceUrl);
+
+      const maxDimension = 1600;
+      const scale = Math.min(
+        1,
+        maxDimension / Math.max(sourceImage.naturalWidth, sourceImage.naturalHeight),
+      );
+      const canvas = document.createElement('canvas');
+
+      canvas.width = Math.round(sourceImage.naturalWidth * scale);
+      canvas.height = Math.round(sourceImage.naturalHeight * scale);
+
+      const context = canvas.getContext('2d');
+
+      if (!context) {
+        reject(new Error('This photograph could not be prepared for upload.'));
+        return;
+      }
+
+      context.fillStyle = '#fff';
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      context.drawImage(sourceImage, 0, 0, canvas.width, canvas.height);
+
+      canvas.toBlob(
+        (blob) => {
+          if (!blob) {
+            reject(new Error('This photograph could not be prepared for upload.'));
+            return;
+          }
+
+          const filename = `${file.name.replace(/\.[^.]+$/, '') || 'memory'}.jpg`;
+
+          resolve(
+            new File([blob], filename, {
+              type: 'image/jpeg',
+              lastModified: Date.now(),
+            }),
+          );
+        },
+        'image/jpeg',
+        0.82,
+      );
+    };
+
+    sourceImage.onerror = () => {
+      URL.revokeObjectURL(sourceUrl);
+      reject(
+        new Error(
+          'This photo format is not supported by your browser. Try exporting it as a JPEG.',
+        ),
+      );
+    };
+
+    sourceImage.src = sourceUrl;
+  });
+
 const voiceStyles: {
   value: VoiceStyle;
   label: string;
@@ -49,6 +111,7 @@ export const CreateMemoryPage = () => {
   const [isCreating, setIsCreating] = useState(false);
   const [creationMessageIndex, setCreationMessageIndex] = useState(0);
   const [error, setError] = useState('');
+  const [isPreparingImage, setIsPreparingImage] = useState(false);
 
   useEffect(() => {
     if (!isCreating) {
@@ -64,15 +127,32 @@ export const CreateMemoryPage = () => {
     return () => window.clearInterval(messageInterval);
   }, [isCreating]);
 
-  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const selectedImage = event.target.files?.[0];
 
     if (!selectedImage) {
       return;
     }
 
-    setImage(selectedImage);
-    setImagePreview(URL.createObjectURL(selectedImage));
+    try {
+      setIsPreparingImage(true);
+      setError('');
+
+      const preparedImage = await prepareImageForUpload(selectedImage);
+
+      setImage(preparedImage);
+      setImagePreview(URL.createObjectURL(preparedImage));
+    } catch (imageError) {
+      setImage(null);
+      setImagePreview('');
+      setError(
+        imageError instanceof Error
+          ? imageError.message
+          : 'This photograph could not be prepared for upload.',
+      );
+    } finally {
+      setIsPreparingImage(false);
+    }
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -160,15 +240,16 @@ export const CreateMemoryPage = () => {
 
                   <strong>Upload a photograph</strong>
 
-                  <span>JPEG, PNG, or WebP</span>
+                  <span>JPEG, PNG, WebP, HEIC, or HEIF</span>
                 </span>
               )}
 
               <input
                 className="upload-zone__input"
                 type="file"
-                accept="image/jpeg,image/png,image/webp"
+                accept="image/jpeg,image/png,image/webp,image/heic,image/heif"
                 onChange={handleImageChange}
+                disabled={isPreparingImage || isCreating}
               />
             </label>
 
@@ -279,12 +360,14 @@ export const CreateMemoryPage = () => {
               isCreating ? 'create-memory-form__submit--creating' : ''
             }`}
             type="submit"
-            disabled={!image || isCreating}
+          disabled={!image || isPreparingImage || isCreating}
             aria-busy={isCreating}
           >
             <Sparkles aria-hidden="true" size={18} />
             <span aria-live="polite">
-              {isCreating
+              {isPreparingImage
+                ? 'Preparing your photograph…'
+                : isCreating
                 ? creationMessages[creationMessageIndex]
                 : 'Create my memory'}
             </span>
