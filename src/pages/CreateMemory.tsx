@@ -92,7 +92,7 @@ export const CreateMemoryPage = () => {
     : 'Create my memory';
 
   return (
-    <main className="create-memory-page">
+    <main id="main-content" className="create-memory-page" tabIndex={-1}>
       <section aria-labelledby="create-memory-title">
         <CreateMemoryHero />
 

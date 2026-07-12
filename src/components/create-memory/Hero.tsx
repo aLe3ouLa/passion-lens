@@ -5,7 +5,7 @@ export const CreateMemoryHero = () => {
     <header className="create-memory-page__header">
       <p className="create-memory-page__eyebrow">Create a memory</p>
 
-      <h1 className="create-memory-page__title">
+      <h1 id="create-memory-title" className="create-memory-page__title">
         Start with a moment that mattered.
       </h1>
 

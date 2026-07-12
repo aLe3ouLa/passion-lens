@@ -18,9 +18,12 @@ type VoiceSelectorProps = {
 };
 
 export const VoiceSelector = ({ value, onChange }: VoiceSelectorProps) => (
-  <fieldset className="memory-form-section voice-selector">
+  <fieldset
+    className="memory-form-section voice-selector"
+    aria-labelledby="voice-selector-title"
+  >
     <p className="memory-form-section__step">Step 03</p>
-    <h2 className="memory-form-section__title">
+    <h2 id="voice-selector-title" className="memory-form-section__title">
       Choose your photographer&apos;s voice
     </h2>
     <p className="memory-form-section__description">

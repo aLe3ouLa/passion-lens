@@ -5,7 +5,7 @@ import './LandingPage.css';
 
 export const LandingPage = () => {
   return (
-    <main>
+    <main id="main-content" tabIndex={-1}>
       <Hero />
       <LensReveal />
       <HowItWorks />

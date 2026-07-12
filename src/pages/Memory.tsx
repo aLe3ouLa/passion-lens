@@ -103,7 +103,7 @@ export const MemoryPage = () => {
   };
 
   return (
-    <main className="memory-page">
+    <main id="main-content" className="memory-page" tabIndex={-1}>
       <article className="memory-story" aria-labelledby="memory-title">
         <section
           className={`memory-hero ${isPlaying ? 'memory-hero--playing' : ''}`}
