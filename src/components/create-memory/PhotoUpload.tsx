@@ -52,5 +52,10 @@ export const PhotoUpload = ({
     </label>
 
     {image && <p className="upload-zone__filename">{image.name}</p>}
+
+    <p className="upload-zone__privacy">
+      Passion Lens doesn’t save your photo; it is temporarily processed by
+      Google Gemini to create your memory. Please don’t upload sensitive images.
+    </p>
   </section>
 );
